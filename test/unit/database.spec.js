@@ -30,7 +30,7 @@ test.group('Database | QueryBuilder', (group) => {
   group.after(async () => {
     await this.database.collection('users').delete()
     await helpers.dropCollections(this.database)
-    this.database.close()
+    await this.database.close()
     try {
       await fs.remove(path.join(__dirname, './tmp'))
     } catch (error) {
@@ -38,7 +38,7 @@ test.group('Database | QueryBuilder', (group) => {
         throw error
       }
     }
-  }).timeout(0)
+  })
 
   test('connection string mongo://', async assert => {
     const config = {
@@ -48,7 +48,6 @@ test.group('Database | QueryBuilder', (group) => {
 
     const db = new Database(config)
     assert.isNotNull(db)
-    assert.equal(db.databaseName, 'my_database')
   })
 
   test('connection string with begin srv+mongo://', async assert => {
@@ -59,7 +58,6 @@ test.group('Database | QueryBuilder', (group) => {
 
     const db = new Database(config)
     assert.isNotNull(db)
-    assert.equal(db.databaseName, 'my_database')
   })
 
   test('connection string cluster', async assert => {
@@ -70,7 +68,6 @@ test.group('Database | QueryBuilder', (group) => {
 
     const db = new Database(config)
     assert.isNotNull(db)
-    assert.equal(db.databaseName, 'my_database')
   })
 
   test('destroy database connection', async (assert) => {
@@ -79,8 +76,8 @@ test.group('Database | QueryBuilder', (group) => {
     try {
       await this.database.collection('users').find()
     } catch ({ message }) {
-      assert.equal(message, 'Topology was destroyed')
       this.database = new Database(helpers.getConfig())
+      assert.equal(message, 'Client must be connected before running operations')
     }
   })
 

@@ -211,7 +211,7 @@ test.group('Relations | Serializer', (group) => {
   //   Profile._bootIfNotBooted()
 
   //   const result = await ioc.use('Database').collection('users').insert([{ username: 'virk' }, { username: 'nikk' }])
-  //   await ioc.use('Database').collection('profiles').insert([{ user_id: result.insertedIds[0], profile_name: 'virk' }, { user_id: result.insertedIds[1], profile_name: 'nikk' }])
+  //   await ioc.use('Database').collection('profiles').insert([{ user_id: result.insertedId, profile_name: 'virk' }, { user_id: result.insertedIds[1], profile_name: 'nikk' }])
 
   //   const users = await User.query().withCount('profile').paginate()
 

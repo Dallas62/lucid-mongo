@@ -76,7 +76,7 @@ test.group('Relations | Refer Many', (group) => {
     ])
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk', picture_ids: _.toArray(result.insertedIds) })
 
-    const user = await User.find(rs.insertedIds[0])
+    const user = await User.find(rs.insertedId)
     const pictures = await user.pictures().fetch()
     assert.instanceOf(pictures, VanillaSerializer)
     assert.equal(pictures.size(), 2)
@@ -101,7 +101,7 @@ test.group('Relations | Refer Many', (group) => {
     ])
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk', picture_ids: _.toArray(result.insertedIds) })
 
-    const user = await User.find(rs.insertedIds[0])
+    const user = await User.find(rs.insertedId)
     const picture = await user.pictures().first()
     assert.instanceOf(picture, Picture)
     assert.equal(picture.file, 'images/file1.png')
@@ -271,7 +271,7 @@ test.group('Relations | Refer Many', (group) => {
     ])
 
     const result = await ioc.use('Database').collection('pictures').insert([
-      { file: 'images/file1.png', part_ids: [partsResult.insertedIds[0], partsResult.insertedIds[1]] },
+      { file: 'images/file1.png', part_ids: [partsResult.insertedId, partsResult.insertedIds[1]] },
       { file: 'images/file2.png', part_ids: [partsResult.insertedIds[2], partsResult.insertedIds[3]] }
     ])
 
@@ -311,7 +311,7 @@ test.group('Relations | Refer Many', (group) => {
     ])
 
     const result = await ioc.use('Database').collection('pictures').insert([
-      { likes: 1000, file: 'images/file1.png', part_ids: [partsResult.insertedIds[0], partsResult.insertedIds[1]] },
+      { likes: 1000, file: 'images/file1.png', part_ids: [partsResult.insertedId, partsResult.insertedIds[1]] },
       { likes: 3000, file: 'images/file2.png', part_ids: [partsResult.insertedIds[2], partsResult.insertedIds[3]] }
     ])
 
@@ -371,7 +371,7 @@ test.group('Relations | Refer Many', (group) => {
       { file: 'images/file3.png' }
     ])
 
-    await ioc.use('Database').collection('users').insert([{ username: 'virk', picture_ids: [result.insertedIds[0], result.insertedIds[1]] }, { username: 'nikk', picture_ids: [result.insertedIds[2]] }])
+    await ioc.use('Database').collection('users').insert([{ username: 'virk', picture_ids: [result.insertedId, result.insertedIds[1]] }, { username: 'nikk', picture_ids: [result.insertedIds[2]] }])
 
     const users = await User.query().with('pictures').paginate()
     const json = users.toJSON()

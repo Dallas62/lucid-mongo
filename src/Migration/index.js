@@ -38,7 +38,7 @@ class Migration {
    * @method _makeMigrationsCollection
    * @async
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @private
    */
@@ -57,7 +57,7 @@ class Migration {
    * @method _makeLockCollection
    * @async
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @private
    */
@@ -87,7 +87,7 @@ class Migration {
    * @method _removeLock
    * @async
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @private
    */
@@ -102,7 +102,7 @@ class Migration {
    * @method _checkForLock
    * @async
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @private
    */
@@ -145,7 +145,7 @@ class Migration {
    * @param  {String}     name
    * @param  {Number}     batch
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @private
    */
@@ -162,7 +162,7 @@ class Migration {
    *
    * @param  {String} name
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @private
    */
@@ -234,7 +234,7 @@ class Migration {
   async _executeSchema (schemaInstance, direction, toSQL, name) {
     await schemaInstance[direction]()
     const queries = await schemaInstance.executeActions(toSQL)
-    return toSQL ? { queries, name } : void 0
+    return toSQL ? { queries, name } : undefined
   }
 
   /**
@@ -246,7 +246,7 @@ class Migration {
    * @param  {Object} Schemas
    * @param  {String} direction
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @private
    */
@@ -282,7 +282,7 @@ class Migration {
    *
    * @method _cleanup
    *
-   * @return {void}
+   * @return {undefined}
    */
   async _cleanup () {
     await this._removeLock()

@@ -12,9 +12,7 @@
 const _ = require('lodash')
 const query = require('mquery')
 const debug = require('debug')('mquery')
-// const GeoPoint = require('geo-point')
 const EagerLoad = require('../EagerLoad')
-// const RelationsParser = require('../Relations/Parser')
 const CE = require('../../Exceptions')
 
 const proxyGet = require('../../../lib/proxyGet')
@@ -200,7 +198,7 @@ class QueryBuilder {
    *
    * @param  {Array}   modelInstance
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @private
    */
@@ -365,11 +363,12 @@ class QueryBuilder {
      */
     this._applyScopes()
     const collection = await this.db.getCollection(this.collection)
+    this.query.collection(collection)
     const countQuery = _.clone(this.query)
     countQuery._fields = undefined
-    const countByQuery = await countQuery.collection(collection).count()
+    const countByQuery = await countQuery.count()
     this.query.limit(limit).skip((page - 1) * limit)
-    const rows = await this.query.collection(collection).find()
+    const rows = await this.query.find()
 
     const result = util.makePaginateMeta(countByQuery || 0, page, limit)
 
@@ -420,7 +419,7 @@ class QueryBuilder {
      */
     this._applyScopes()
     const collection = await this.db.getCollection(this.collection)
-    return this.query.collection(collection).setOptions({ multi: true }).update(valuesCopy)
+    return this.query.collection(collection).updateMany(valuesCopy)
   }
 
   /**
@@ -434,7 +433,7 @@ class QueryBuilder {
   async delete () {
     this._applyScopes()
     const collection = await this.db.getCollection(this.collection)
-    return this.query.collection(collection).setOptions({ multi: true }).remove()
+    return this.query.collection(collection).deleteMany()
   }
 
   /**
@@ -448,7 +447,7 @@ class QueryBuilder {
   async insert (attributes) {
     debug('insert', this.collection, attributes)
     const collection = await this.db.getCollection(this.collection)
-    return collection.insert(attributes)
+    return collection.insertOne(attributes)
   }
 
   /**
@@ -805,6 +804,7 @@ class QueryBuilder {
       arg = arguments[0]
     }
     this.query.select(arg)
+    this.query.$useProjection = true
     return this
   }
 

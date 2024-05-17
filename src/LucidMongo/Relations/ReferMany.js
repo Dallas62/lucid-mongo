@@ -39,7 +39,7 @@ class ReferMany extends BaseRelation {
    *
    * @method _decorateQuery
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @private
    */
@@ -54,7 +54,7 @@ class ReferMany extends BaseRelation {
      *
      * @method _persistParentIfRequired
      *
-     * @return {void}
+     * @return {undefined}
      *
      * @private
      */
@@ -81,8 +81,8 @@ class ReferMany extends BaseRelation {
     }
     const relatedInstances = await this.relatedQuery.whereIn(this.primaryKey, mappedRows).fetch()
     const result = []
-    rows.map(modelInstance => {
-      relatedInstances.rows.map(related => {
+    rows.forEach(modelInstance => {
+      relatedInstances.rows.forEach(related => {
         const foreignKeys = modelInstance[this.foreignKey] || []
         if (foreignKeys.map(String).includes(String(related.primaryKeyValue))) {
           const newRelated = new this.RelatedModel()
@@ -231,7 +231,7 @@ class ReferMany extends BaseRelation {
    * @param  {Object} relatedInstance
    * @param  {Function} pivotCallback
    *
-   * @return {void}
+   * @return {undefined}
    */
   async save (relatedInstance) {
     await this._persistParentIfRequired()
@@ -260,7 +260,7 @@ class ReferMany extends BaseRelation {
    *
    * @param  {Array}    arrayOfRelatedInstances
    *
-   * @return {void}
+   * @return {undefined}
    */
   async saveMany (arrayOfRelatedInstances) {
     if (!Array.isArray(arrayOfRelatedInstances)) {

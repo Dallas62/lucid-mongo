@@ -15,8 +15,6 @@ const CE = require('../Exceptions')
 const util = require('../../lib/util')
 const _ = require('lodash')
 const mongoUriBuilder = require('mongo-uri-builder')
-const mongoUrl = require('mongodb-url')
-// const debug = require('debug')('mquery')
 
 const proxyHandler = {
   get (target, name) {
@@ -67,13 +65,13 @@ class SchemaBuilder {
 
   index (name, keys, options) {
     if (!name) {
-      throw new CE.InvalidArgumentException(`param name is required to create index`)
+      throw new CE.InvalidArgumentException('param name is required to create index')
     }
     if (!keys || !_.size(keys)) {
-      throw new CE.InvalidArgumentException(`param keys is required to create index`)
+      throw new CE.InvalidArgumentException('param keys is required to create index')
     }
     options = options || {}
-    options['name'] = name
+    options.name = name
     this.createIndexes.push({ keys, options })
   }
 
@@ -82,12 +80,12 @@ class SchemaBuilder {
   }
 
   async build () {
-    for (var i in this.createIndexes) {
-      var createIndex = this.createIndexes[i]
+    for (const i in this.createIndexes) {
+      const createIndex = this.createIndexes[i]
       await this.collection.createIndex(createIndex.keys, createIndex.options)
     }
-    for (var j in this.dropIndexes) {
-      var dropIndex = this.dropIndexes[j]
+    for (const j in this.dropIndexes) {
+      const dropIndex = this.dropIndexes[j]
       await this.collection.dropIndex(dropIndex)
     }
   }
@@ -112,16 +110,11 @@ class Database {
 
     if (config.connectionString) {
       this.connectionString = config.connectionString
-      const parsedUri = mongoUrl(this.connectionString)
-      this.databaseName = parsedUri.dbName || config.connection.database
     } else {
       this.connectionString = mongoUriBuilder(config.connection)
-      this.databaseName = config.connection.database
     }
 
-    this.connectionOptions = _.assign({
-      useNewUrlParser: true
-    }, config.connectionOptions || {})
+    this.connectionOptions = config.connectionOptions || {}
 
     this.connection = null
     this.db = null
@@ -133,7 +126,7 @@ class Database {
   async connect (collectionName) {
     if (!this.db) {
       this.connection = await MongoClient.connect(this.connectionString, this.connectionOptions)
-      this.db = this.connection.db(this.databaseName)
+      this.db = this.connection.db()
     }
     return Promise.resolve(this.db)
   }
@@ -141,7 +134,7 @@ class Database {
   async getCollection (collectionName) {
     if (!this.db) {
       this.connection = await MongoClient.connect(this.connectionString, this.connectionOptions)
-      this.db = this.connection.db(this.databaseName)
+      this.db = this.connection.db()
     }
     return Promise.resolve(this.db.collection(collectionName))
   }
@@ -403,7 +396,7 @@ class Database {
   async update () {
     const connection = await this.connect()
     const collection = connection.collection(this.collectionName)
-    return this.queryBuilder.collection(collection).update(...arguments)
+    return this.queryBuilder.collection(collection).updateMany(...arguments)
   }
 
   /**
@@ -416,7 +409,7 @@ class Database {
   async delete () {
     const connection = await this.connect()
     const collection = connection.collection(this.collectionName)
-    return this.queryBuilder.collection(collection).remove(...arguments)
+    return this.queryBuilder.collection(collection).deleteMany(...arguments)
   }
 
   /**
@@ -446,7 +439,7 @@ class Database {
   async insert (row) {
     const connection = await this.connect()
     const collection = connection.collection(this.collectionName)
-    return collection.insert(row)
+    return Array.isArray(row) ? collection.insertMany(row) : collection.insertOne(row)
   }
 
   /**

@@ -47,7 +47,7 @@ class BaseMigration extends Command {
    *
    * @param  {Boolean}       force
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @private
    *

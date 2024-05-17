@@ -18,7 +18,7 @@ class LucidMongoProvider extends ServiceProvider {
    *
    * @method _registerDatabase
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @private
    */
@@ -37,7 +37,7 @@ class LucidMongoProvider extends ServiceProvider {
    *
    * @method _registerModel
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @private
    */
@@ -85,7 +85,7 @@ class LucidMongoProvider extends ServiceProvider {
    *
    * @method register
    *
-   * @return {void}
+   * @return {undefined}
    */
   register () {
     this._registerDatabase()
@@ -98,7 +98,7 @@ class LucidMongoProvider extends ServiceProvider {
    *
    * @method boot
    *
-   * @return {void}
+   * @return {undefined}
    */
   boot () {
     this._addUniqueRule()

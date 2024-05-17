@@ -18,7 +18,7 @@ class MigrationsProvider extends ServiceProvider {
    *
    * @method _registerSchema
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @private
    */
@@ -33,7 +33,7 @@ class MigrationsProvider extends ServiceProvider {
    *
    * @method _registerFactory
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @private
    */
@@ -48,7 +48,7 @@ class MigrationsProvider extends ServiceProvider {
    *
    * @method _registerCommands
    *
-   * @return {void}
+   * @return {undefined}
    */
   _registerCommands () {
     this.app.bind('Adonis/Commands/Migration:Run', () => require('../commands/MigrationRun'))
@@ -65,7 +65,7 @@ class MigrationsProvider extends ServiceProvider {
    *
    * @method _registerMigration
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @private
    */
@@ -84,7 +84,7 @@ class MigrationsProvider extends ServiceProvider {
    *
    * @method register
    *
-   * @return {void}
+   * @return {undefined}
    */
   register () {
     this._registerSchema()
@@ -98,7 +98,7 @@ class MigrationsProvider extends ServiceProvider {
    *
    * @method boot
    *
-   * @return {void}
+   * @return {undefined}
    */
   boot () {
     const ace = require('@adonisjs/ace')

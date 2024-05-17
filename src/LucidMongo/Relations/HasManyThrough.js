@@ -38,7 +38,7 @@ class HasManyThrough extends BaseRelation {
    *
    * @method _makeJoinQuery
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @private
    */
@@ -56,7 +56,7 @@ class HasManyThrough extends BaseRelation {
    *
    * @method _selectFields
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @private
    */
@@ -70,7 +70,7 @@ class HasManyThrough extends BaseRelation {
    *
    * @method _decorateQuery
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @private
    */

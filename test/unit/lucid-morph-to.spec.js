@@ -86,7 +86,7 @@ test.group('Relations | Morph To', (group) => {
 
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk' })
     const rsPost = await ioc.use('Database').collection('post').insert({ title: 'test post' })
-    const rsPicture = await ioc.use('Database').collection('pictures').insert([{ parent_id: rs.insertedIds[0], determiner: 'User', path: '/foo' }, { parent_id: rsPost.insertedIds[0], determiner: 'Post', path: '/foo' }])
+    const rsPicture = await ioc.use('Database').collection('pictures').insert([{ parent_id: rs.insertedId, determiner: 'User', path: '/foo' }, { parent_id: rsPost.insertedId, determiner: 'Post', path: '/foo' }])
 
     const picture = await Picture.find(rsPicture.insertedIds[0])
     const pictureable = await picture.pictureable().first()
@@ -123,7 +123,7 @@ test.group('Relations | Morph To', (group) => {
 
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk' })
     const rsPost = await ioc.use('Database').collection('post').insert({ title: 'test post' })
-    const rsPicture = await ioc.use('Database').collection('pictures').insert([{ parent_id: rs.insertedIds[0], determiner: 'User', path: '/foo' }, { parent_id: rsPost.insertedIds[0], determiner: 'Post', path: '/foo' }])
+    const rsPicture = await ioc.use('Database').collection('pictures').insert([{ parent_id: rs.insertedId, determiner: 'User', path: '/foo' }, { parent_id: rsPost.insertedId, determiner: 'Post', path: '/foo' }])
 
     const picture = await Picture.find(rsPicture.insertedIds[0])
     const pictureable = await picture.pictureable().fetch()
@@ -160,7 +160,7 @@ test.group('Relations | Morph To', (group) => {
 
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk' })
     const rsPost = await ioc.use('Database').collection('posts').insert({ title: 'test post' })
-    await ioc.use('Database').collection('pictures').insert([{ parent_id: rs.insertedIds[0], determiner: 'User', path: '/foo' }, { parent_id: rsPost.insertedIds[0], determiner: 'Post', path: '/foo' }])
+    await ioc.use('Database').collection('pictures').insert([{ parent_id: rs.insertedId, determiner: 'User', path: '/foo' }, { parent_id: rsPost.insertedId, determiner: 'Post', path: '/foo' }])
     const pictures = await Picture.with('pictureable').fetch()
     assert.instanceOf(pictures, VanillaSerializer)
     const user = pictures.rows[0].getRelated('pictureable')
@@ -199,7 +199,7 @@ test.group('Relations | Morph To', (group) => {
 
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk' })
     const rsPost = await ioc.use('Database').collection('post').insert({ title: 'test post' })
-    const rsPicture = await ioc.use('Database').collection('pictures').insert([{ parent_id: rs.insertedIds[0], determiner: 'User', path: '/foo' }, { parent_id: rsPost.insertedIds[0], determiner: 'Post', path: '/foo' }])
+    const rsPicture = await ioc.use('Database').collection('pictures').insert([{ parent_id: rs.insertedId, determiner: 'User', path: '/foo' }, { parent_id: rsPost.insertedId, determiner: 'Post', path: '/foo' }])
 
     const picture = await Picture.find(rsPicture.insertedIds[0])
     try {
@@ -239,7 +239,7 @@ test.group('Relations | Morph To', (group) => {
 
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk' })
     const rsPost = await ioc.use('Database').collection('post').insert({ title: 'test post' })
-    const rsPicture = await ioc.use('Database').collection('pictures').insert([{ parent_id: rs.insertedIds[0], determiner: 'User', path: '/foo' }, { parent_id: rsPost.insertedIds[0], determiner: 'Post', path: '/foo' }])
+    const rsPicture = await ioc.use('Database').collection('pictures').insert([{ parent_id: rs.insertedId, determiner: 'User', path: '/foo' }, { parent_id: rsPost.insertedId, determiner: 'Post', path: '/foo' }])
 
     const picture = await Picture.find(rsPicture.insertedIds[0])
     try {

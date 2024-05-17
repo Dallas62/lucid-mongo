@@ -9,8 +9,6 @@
  * file that was distributed with this source code.
 */
 
-// require('./MonkeyPatch')
-
 const _ = require('lodash')
 const Database = require('.')
 const CE = require('../Exceptions')
@@ -91,7 +89,7 @@ class DatabaseManager {
    *
    * @param {String|Array} [names = *]
    *
-   * @return {void}
+   * @return {undefined}
    *
    * @example
    * ```js

@@ -159,7 +159,7 @@
 
 ### Features
 
-* **FieldFormat:** parse array of ObjectID ([f7d2f58](https://github.com/duyluonglc/lucid-mongo/commit/f7d2f58))
+* **FieldFormat:** parse array of ObjectId ([f7d2f58](https://github.com/duyluonglc/lucid-mongo/commit/f7d2f58))
 * **queryBuilder:** change pattern condition of where method ([0448566](https://github.com/duyluonglc/lucid-mongo/commit/0448566))
 * **relation:** add query method to relation ([c0c4b99](https://github.com/duyluonglc/lucid-mongo/commit/c0c4b99))
 

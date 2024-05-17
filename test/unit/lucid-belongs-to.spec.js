@@ -69,9 +69,9 @@ test.group('Relations | Belongs To', (group) => {
     Profile._bootIfNotBooted()
 
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk' })
-    const rsProfile = await ioc.use('Database').collection('profiles').insert({ user_id: rs.insertedIds[0], profile_name: 'virk' })
+    const rsProfile = await ioc.use('Database').collection('profiles').insert({ user_id: rs.insertedId, profile_name: 'virk' })
 
-    const profile = await Profile.find(rsProfile.insertedIds[0])
+    const profile = await Profile.find(rsProfile.insertedId)
     await profile.user().first()
   })
 
@@ -89,9 +89,9 @@ test.group('Relations | Belongs To', (group) => {
     Profile._bootIfNotBooted()
 
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk' })
-    const rsProfile = await ioc.use('Database').collection('profiles').insert({ user_id: rs.insertedIds[0], profile_name: 'virk' })
+    const rsProfile = await ioc.use('Database').collection('profiles').insert({ user_id: rs.insertedId, profile_name: 'virk' })
 
-    const profile = await Profile.find(rsProfile.insertedIds[0])
+    const profile = await Profile.find(rsProfile.insertedId)
     await profile.user().fetch()
   })
 
@@ -111,7 +111,7 @@ test.group('Relations | Belongs To', (group) => {
     const rs = await ioc.use('Database').collection('users').insert([{ username: 'virk' }, { username: 'nikk' }])
     const rsProfile = await ioc.use('Database').collection('profiles').insert({ user_id: rs.insertedIds[1], profile_name: 'nikk' })
 
-    const profile = await Profile.find(rsProfile.insertedIds[0])
+    const profile = await Profile.find(rsProfile.insertedId)
     await profile.user().fetch()
   })
 
@@ -218,8 +218,8 @@ test.group('Relations | Belongs To', (group) => {
     Picture._bootIfNotBooted()
 
     const rsUser = await ioc.use('Database').collection('users').insert({ username: 'virk' })
-    const rsProfile = await ioc.use('Database').collection('profiles').insert({ user_id: rsUser.insertedIds[0], profile_name: 'virk' })
-    await ioc.use('Database').collection('pictures').insert({ profile_id: rsProfile.insertedIds[0], storage_path: '/foo' })
+    const rsProfile = await ioc.use('Database').collection('profiles').insert({ user_id: rsUser.insertedId, profile_name: 'virk' })
+    await ioc.use('Database').collection('pictures').insert({ profile_id: rsProfile.insertedId, storage_path: '/foo' })
 
     const pictures = await Picture.query().with('profile.user').fetch()
     assert.instanceOf(pictures.first().getRelated('profile'), Profile)
@@ -249,8 +249,8 @@ test.group('Relations | Belongs To', (group) => {
     Picture._bootIfNotBooted()
 
     const rsUser = await ioc.use('Database').collection('users').insert({ username: 'virk' })
-    const rsProfile = await ioc.use('Database').collection('profiles').insert({ user_id: rsUser.insertedIds[0], profile_name: 'virk' })
-    await ioc.use('Database').collection('pictures').insert({ profile_id: rsProfile.insertedIds[0], storage_path: '/foo' })
+    const rsProfile = await ioc.use('Database').collection('profiles').insert({ user_id: rsUser.insertedId, profile_name: 'virk' })
+    await ioc.use('Database').collection('pictures').insert({ profile_id: rsProfile.insertedId, storage_path: '/foo' })
 
     const picture = await Picture.query().with('profile.user').first()
     const json = picture.toJSON()
@@ -363,17 +363,17 @@ test.group('Relations | Belongs To', (group) => {
     Profile._bootIfNotBooted()
 
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk' })
-    const rsProfile = await ioc.use('Database').collection('profiles').insert({ profile_name: 'virk', user_id: rs.insertedIds[0] })
+    const rsProfile = await ioc.use('Database').collection('profiles').insert({ profile_name: 'virk', user_id: rs.insertedId })
 
-    const profile = await Profile.find(rsProfile.insertedIds[0])
-    assert.equal(String(profile.user_id), String(rs.insertedIds[0]))
+    const profile = await Profile.find(rsProfile.insertedId)
+    assert.equal(String(profile.user_id), String(rs.insertedId))
 
     await profile.user().dissociate()
     assert.equal(profile.user_id, null)
     assert.isFalse(profile.isNew)
 
     const freshProfile = await ioc.use('Database').collection('profiles').findOne()
-    assert.equal(String(freshProfile._id), String(rsProfile.insertedIds[0]))
+    assert.equal(String(freshProfile._id), String(rsProfile.insertedId))
     assert.equal(freshProfile.user_id, null)
   })
 
@@ -395,17 +395,17 @@ test.group('Relations | Belongs To', (group) => {
     Profile._bootIfNotBooted()
 
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk' })
-    const rsProfile = await ioc.use('Database').collection('profiles').insert({ profile_name: 'virk', user_id: rs.insertedIds[0] })
+    const rsProfile = await ioc.use('Database').collection('profiles').insert({ profile_name: 'virk', user_id: rs.insertedId })
 
-    const profile = await Profile.find(rsProfile.insertedIds[0])
-    assert.equal(String(profile.user_id), String(rs.insertedIds[0]))
+    const profile = await Profile.find(rsProfile.insertedId)
+    assert.equal(String(profile.user_id), String(rs.insertedId))
 
     await profile.user().dissociate()
     assert.equal(profile.user_id, null)
     assert.isFalse(profile.isNew)
 
     const freshProfile = await ioc.use('Database').collection('profiles').findOne()
-    assert.equal(String(freshProfile._id), String(rsProfile.insertedIds[0]))
+    assert.equal(String(freshProfile._id), String(rsProfile.insertedId))
     assert.equal(freshProfile.user_id, null)
   })
 
@@ -446,9 +446,9 @@ test.group('Relations | Belongs To', (group) => {
     Profile._bootIfNotBooted()
 
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk' })
-    const rsProfile = await ioc.use('Database').collection('profiles').insert({ profile_name: 'virk', user_id: rs.insertedIds[0] })
+    const rsProfile = await ioc.use('Database').collection('profiles').insert({ profile_name: 'virk', user_id: rs.insertedId })
 
-    const profile = await Profile.find(rsProfile.insertedIds[0])
+    const profile = await Profile.find(rsProfile.insertedId)
     await profile.user().delete()
     const user = await ioc.use('Database').collection('users').findOne()
     assert.isNull(user)
@@ -472,7 +472,7 @@ test.group('Relations | Belongs To', (group) => {
     Profile._bootIfNotBooted()
 
     const result = await ioc.use('Database').collection('users').insert({ username: 'virk' })
-    await ioc.use('Database').collection('profiles').insert({ user_id: result.insertedIds[0], profile_name: 'virk' })
+    await ioc.use('Database').collection('profiles').insert({ user_id: result.insertedId, profile_name: 'virk' })
 
     const profile = await Profile.first()
     const users = await profile.user().fetch()
@@ -494,7 +494,7 @@ test.group('Relations | Belongs To', (group) => {
 
     const result = await ioc.use('Database').collection('users').insert({ username: 'virk' })
     await ioc.use('Database').collection('cars').insert({ name: 'E180', model: 'Mercedes', user_id: null })
-    await ioc.use('Database').collection('cars').insert({ name: 'GL350', model: 'Mercedes', user_id: result.insertedIds[0] })
+    await ioc.use('Database').collection('cars').insert({ name: 'GL350', model: 'Mercedes', user_id: result.insertedId })
 
     const cars = await Car.query().with('user').fetch()
     assert.lengthOf(cars.toJSON(), 2)
@@ -568,6 +568,6 @@ test.group('Relations | Belongs To', (group) => {
     await ioc.use('Database').collection('users').insert({ username: 'virk' })
     const result = await ioc.use('Database').collection('cars').insert({ name: 'E180', model: 'Mercedes', user_id: null })
 
-    await Car.query().where('_id', result.insertedIds[0]).first()
+    await Car.query().where('_id', result.insertedId).first()
   })
 })

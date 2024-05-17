@@ -71,11 +71,11 @@ test.group('Relations | Morph Many', (group) => {
 
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk' })
     await ioc.use('Database').collection('pictures').insert([
-      { parent_id: rs.insertedIds[0], determiner: 'User', file: 'images/file.png' },
-      { parent_id: rs.insertedIds[0], determiner: 'User', file: 'images/file.png' }
+      { parent_id: rs.insertedId, determiner: 'User', file: 'images/file.png' },
+      { parent_id: rs.insertedId, determiner: 'User', file: 'images/file.png' }
     ])
 
-    const user = await User.find(rs.insertedIds[0])
+    const user = await User.find(rs.insertedId)
     const pictures = await user.pictures().fetch()
     assert.instanceOf(pictures, VanillaSerializer)
     assert.equal(pictures.size(), 2)
@@ -96,11 +96,11 @@ test.group('Relations | Morph Many', (group) => {
 
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk' })
     await ioc.use('Database').collection('pictures').insert([
-      { parent_id: rs.insertedIds[0], determiner: 'User', file: 'images/file.png' },
-      { parent_id: rs.insertedIds[0], determiner: 'User', file: 'images/file.png' }
+      { parent_id: rs.insertedId, determiner: 'User', file: 'images/file.png' },
+      { parent_id: rs.insertedId, determiner: 'User', file: 'images/file.png' }
     ])
 
-    const user = await User.find(rs.insertedIds[0])
+    const user = await User.find(rs.insertedId)
     const picture = await user.pictures().first()
     assert.instanceOf(picture, Picture)
     assert.equal(picture.file, 'images/file.png')
@@ -121,8 +121,8 @@ test.group('Relations | Morph Many', (group) => {
 
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk' })
     await ioc.use('Database').collection('pictures').insert([
-      { parent_id: rs.insertedIds[0], determiner: 'User', file: 'images/file.png' },
-      { parent_id: rs.insertedIds[0], determiner: 'User', file: 'images/file.png' }
+      { parent_id: rs.insertedId, determiner: 'User', file: 'images/file.png' },
+      { parent_id: rs.insertedId, determiner: 'User', file: 'images/file.png' }
     ])
 
     const user = await User.query().with('pictures').first()
@@ -146,8 +146,8 @@ test.group('Relations | Morph Many', (group) => {
 
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk' })
     await ioc.use('Database').collection('pictures').insert([
-      { parent_id: rs.insertedIds[0], determiner: 'User', file: 'images/file1.png', likes: 1000 },
-      { parent_id: rs.insertedIds[0], determiner: 'User', file: 'images/file2.png', likes: 3000 }
+      { parent_id: rs.insertedId, determiner: 'User', file: 'images/file1.png', likes: 1000 },
+      { parent_id: rs.insertedId, determiner: 'User', file: 'images/file2.png', likes: 3000 }
     ])
     const users = await User.query().with('pictures', (builder) => {
       builder.where('likes', '>', 2000)
@@ -272,8 +272,8 @@ test.group('Relations | Morph Many', (group) => {
 
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk' })
     const rsPicture = await ioc.use('Database').collection('pictures').insert([
-      { parent_id: rs.insertedIds[0], determiner: 'User', file: 'images/file1.png', likes: 1000 },
-      { parent_id: rs.insertedIds[0], determiner: 'User', file: 'images/file2.png', likes: 3000 }
+      { parent_id: rs.insertedId, determiner: 'User', file: 'images/file1.png', likes: 1000 },
+      { parent_id: rs.insertedId, determiner: 'User', file: 'images/file2.png', likes: 3000 }
     ])
     await ioc.use('Database').collection('parts').insert([
       { parent_id: rsPicture.insertedIds[0], determiner: 'Picture', part_name: 'wheels' },
@@ -310,8 +310,8 @@ test.group('Relations | Morph Many', (group) => {
 
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk' })
     const rsPicture = await ioc.use('Database').collection('pictures').insert([
-      { parent_id: rs.insertedIds[0], determiner: 'User', file: 'images/file1.png', likes: 1000 },
-      { parent_id: rs.insertedIds[0], determiner: 'User', file: 'images/file2.png', likes: 3000 }
+      { parent_id: rs.insertedId, determiner: 'User', file: 'images/file1.png', likes: 1000 },
+      { parent_id: rs.insertedId, determiner: 'User', file: 'images/file2.png', likes: 3000 }
     ])
     await ioc.use('Database').collection('parts').insert([
       { parent_id: rsPicture.insertedIds[0], determiner: 'Picture', part_name: 'wheels' },
@@ -348,8 +348,8 @@ test.group('Relations | Morph Many', (group) => {
 
     const rs = await ioc.use('Database').collection('users').insert({ username: 'virk' })
     const rsPicture = await ioc.use('Database').collection('pictures').insert([
-      { parent_id: rs.insertedIds[0], determiner: 'User', file: 'images/file1.png', likes: 1000 },
-      { parent_id: rs.insertedIds[0], determiner: 'User', file: 'images/file2.png', likes: 3000 }
+      { parent_id: rs.insertedId, determiner: 'User', file: 'images/file1.png', likes: 1000 },
+      { parent_id: rs.insertedId, determiner: 'User', file: 'images/file2.png', likes: 3000 }
     ])
     await ioc.use('Database').collection('parts').insert([
       { parent_id: rsPicture.insertedIds[0], determiner: 'Picture', part_name: 'wheels' },

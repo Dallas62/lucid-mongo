@@ -2,7 +2,7 @@
   "name": "lucid-mongo",
   "description": "A Mongodb ODM",
   "main": "index.js",
-  "version": "3.1.6",
+  "version": "4.0.0",
   "scripts": {
     "lint": "standard",
     "fix": "standard --fix",
@@ -42,13 +42,12 @@
     "@adonisjs/generic-exceptions": "^2.0.1",
     "chance": "^1.0.18",
     "debug": "^4.1.1",
-    "geo-point": "^1.2.0",
+    "geo-point": "^2.0.2",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "mongo-uri-builder": "^2.0.0",
-    "mongodb": "^3.2.7",
-    "mongodb-url": "^3.0.2",
-    "mquery": "^3.2.1",
+    "mongo-uri-builder": "^4.0.0",
+    "mongodb": "^6.6.2",
+    "mquery": "^5.0.0",
     "pluralize": "^8.0.0",
     "pretty-hrtime": "^1.0.3",
     "require-all": "^3.0.0"
@@ -61,11 +60,11 @@
     "conventional-changelog-cli": "^2.0.21",
     "coveralls": "^3.0.4",
     "cz-conventional-changelog": "^3.0.0",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^11.2.0",
     "japa": "^2.0.10",
     "japa-cli": "^1.0.1",
-    "nyc": "^13.3.0",
-    "standard": "^13.0.0"
+    "nyc": "^15.1.0",
+    "standard": "^17.1.0"
   },
   "config": {
     "commitizen": {

@@ -48,7 +48,7 @@ test.group('Model', (group) => {
 
   group.after(async () => {
     await helpers.dropCollections(ioc.use('Database'))
-    ioc.use('Database').close()
+    await ioc.use('Database').close()
     try {
       await fs.remove(path.join(__dirname, './tmp'))
     } catch (error) {
@@ -661,7 +661,7 @@ test.group('Model', (group) => {
 
     User._bootIfNotBooted()
     const result = await ioc.use('Database').collection('users').insert({ username: 'virk' })
-    const user = await User.find(result.insertedIds[0])
+    const user = await User.find(result.insertedId)
     assert.instanceOf(user, User)
     assert.equal(user.username, 'virk')
     assert.isFalse(user.isNew)
@@ -1841,7 +1841,7 @@ test.group('Lucid | Aggregate', (group) => {
     const count2 = await User.count('name')
     assert.deepEqual(_.sortBy(count2, '_id'), [{ _id: 'nik', count: 2 }, { _id: 'vik', count: 2 }])
     const count3 = await User.count({ name: '$name', value: '$value' })
-    assert.deepEqual(_.sortBy(count3, row => row._id.name), [
+    assert.deepEqual(_.sortBy(count3, row => [row._id.name, row._id.value]), [
       { _id: { name: 'nik', value: 10 }, count: 1 },
       { _id: { name: 'nik', value: 20 }, count: 1 },
       { _id: { name: 'vik', value: 10 }, count: 2 }
@@ -1863,10 +1863,10 @@ test.group('Lucid | Aggregate', (group) => {
     const sum2 = await User.sum('value', 'name')
     assert.deepEqual(_.sortBy(sum2, '_id'), [{ _id: 'nik', sum: 30 }, { _id: 'vik', sum: 20 }])
     const sum3 = await User.sum('value', { name: '$name', scope: '$scope' })
-    assert.deepEqual(_.sortBy(sum3, row => row._id.name), [
+    assert.deepEqual(_.sortBy(sum3, row => [row._id.name, row._id.scope]), [
       { _id: { name: 'nik', scope: 2 }, sum: 30 },
-      { _id: { name: 'vik', scope: 2 }, sum: 10 },
-      { _id: { name: 'vik', scope: 1 }, sum: 10 }
+      { _id: { name: 'vik', scope: 1 }, sum: 10 },
+      { _id: { name: 'vik', scope: 2 }, sum: 10 }
     ])
   })
 
@@ -1885,10 +1885,10 @@ test.group('Lucid | Aggregate', (group) => {
     const avg2 = await User.avg('value', 'name')
     assert.deepEqual(_.sortBy(avg2, '_id'), [{ _id: 'nik', avg: 15 }, { _id: 'vik', avg: 10 }])
     const avg3 = await User.avg('value', { name: '$name', scope: '$scope' })
-    assert.deepEqual(_.sortBy(avg3, row => row._id.name), [
+    assert.deepEqual(_.sortBy(avg3, row => [row._id.name, row._id.scope]), [
       { _id: { name: 'nik', scope: 2 }, avg: 15 },
-      { _id: { name: 'vik', scope: 2 }, avg: 10 },
-      { _id: { name: 'vik', scope: 1 }, avg: 10 }
+      { _id: { name: 'vik', scope: 1 }, avg: 10 },
+      { _id: { name: 'vik', scope: 2 }, avg: 10 }
     ])
   })
 
@@ -1907,10 +1907,10 @@ test.group('Lucid | Aggregate', (group) => {
     const max2 = await User.max('value', 'name')
     assert.deepEqual(_.sortBy(max2, '_id'), [{ _id: 'nik', max: 40 }, { _id: 'vik', max: 30 }])
     const max3 = await User.max('value', { name: '$name', scope: '$scope' })
-    assert.deepEqual(_.sortBy(max3, row => row._id.name), [
+    assert.deepEqual(_.sortBy(max3, row => [row._id.name, row._id.scope]), [
       { _id: { name: 'nik', scope: 2 }, max: 40 },
-      { _id: { name: 'vik', scope: 2 }, max: 30 },
-      { _id: { name: 'vik', scope: 1 }, max: 10 }
+      { _id: { name: 'vik', scope: 1 }, max: 10 },
+      { _id: { name: 'vik', scope: 2 }, max: 30 }
     ])
   })
 
@@ -1929,10 +1929,10 @@ test.group('Lucid | Aggregate', (group) => {
     const min2 = await User.min('value', 'name')
     assert.deepEqual(_.sortBy(min2, '_id'), [{ _id: 'nik', min: 30 }, { _id: 'vik', min: 10 }])
     const min3 = await User.min('value', { name: '$name', scope: '$scope' })
-    assert.deepEqual(_.sortBy(min3, row => row._id.name), [
+    assert.deepEqual(_.sortBy(min3, row => [row._id.name, row._id.scope]), [
       { _id: { name: 'nik', scope: 2 }, min: 30 },
-      { _id: { name: 'vik', scope: 2 }, min: 30 },
-      { _id: { name: 'vik', scope: 1 }, min: 10 }
+      { _id: { name: 'vik', scope: 1 }, min: 10 },
+      { _id: { name: 'vik', scope: 2 }, min: 30 }
     ])
   })
 
@@ -1958,7 +1958,7 @@ test.group('Lucid | Aggregate', (group) => {
     const users = [{ name: 'vik', score: 10 }, { name: 'vik', score: 30 }, { name: 'nik', score: 30 }, { name: 'nik', score: 40 }]
     await ioc.use('Database').collection('users').insert(users)
     const names = await User.distinct('name')
-    assert.deepEqual(names, ['vik', 'nik'])
+    assert.deepEqual(names.sort(), ['nik', 'vik'])
     const names2 = await User.where({ score: { $lt: 30 } }).distinct('name')
     assert.deepEqual(names2, ['vik'])
   })

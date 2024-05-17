@@ -422,8 +422,8 @@ up () {
 ```
 
 ### Field type
-> Type of `mongodb.ObjectID`
-The objectId fields will be converted to mongodb.ObjectID before save to db.
+> Type of `mongodb.ObjectId`
+The objectId fields will be converted to mongodb.ObjectId before save to db.
 ```js
 class Article extends LucidMongo {
   static get objectIDs() { return ['_id', 'categoryId'] } //default return ['_id']
@@ -496,7 +496,7 @@ After get from db it will be retransformed to
   const users = await db.collection('users').find()
 
   const phone = await db.collection('phones')
-    .where({userId: ObjectID('58ccb403f895502b84582c63')}).findOne()
+    .where({userId: ObjectId('58ccb403f895502b84582c63')}).findOne()
     
   const count = await db.collection('user')
     .where({active: true}).count()

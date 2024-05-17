@@ -76,10 +76,10 @@ test.group('Relations | Has Many Through - Has Many ', (group) => {
     Post._bootIfNotBooted()
 
     const rsCountry = await ioc.use('Database').collection('countries').insert({ name: 'India' })
-    const rsUser = await ioc.use('Database').collection('users').insert({ country_id: rsCountry.insertedIds[0], username: 'virk' })
-    await ioc.use('Database').collection('posts').insert({ user_id: rsUser.insertedIds[0], title: 'Adonis 101' })
+    const rsUser = await ioc.use('Database').collection('users').insert({ country_id: rsCountry.insertedId, username: 'virk' })
+    await ioc.use('Database').collection('posts').insert({ user_id: rsUser.insertedId, title: 'Adonis 101' })
 
-    const country = await Country.find(rsCountry.insertedIds[0])
+    const country = await Country.find(rsCountry.insertedId)
     const posts = await country.posts().fetch()
     assert.instanceOf(posts, VanillaSerializer)
     assert.equal(posts.size(), 1)
@@ -106,8 +106,8 @@ test.group('Relations | Has Many Through - Has Many ', (group) => {
     Post._bootIfNotBooted()
 
     const rsCountry = await ioc.use('Database').collection('countries').insert({ name: 'India' })
-    const rsUser = await ioc.use('Database').collection('users').insert({ country_id: rsCountry.insertedIds[0], username: 'virk' })
-    await ioc.use('Database').collection('posts').insert({ user_id: rsUser.insertedIds[0], title: 'Adonis 101' })
+    const rsUser = await ioc.use('Database').collection('users').insert({ country_id: rsCountry.insertedId, username: 'virk' })
+    await ioc.use('Database').collection('posts').insert({ user_id: rsUser.insertedId, title: 'Adonis 101' })
 
     const countries = await Country.query().with('posts', (builder) => {
       builder.selectThrough('_id')
@@ -302,7 +302,7 @@ test.group('Relations | Has Many Through - Belongs To Many', (group) => {
       { name: 'Conditionals', category_id: rsCategory.insertedIds[1] }
     ])
     const rsPost = await ioc.use('Database').collection('posts').insert({ title: 'For each loop' })
-    await ioc.use('Database').collection('post_section').insert({ post_id: rsPost.insertedIds[0], section_id: rsSection.insertedIds[0] })
+    await ioc.use('Database').collection('post_section').insert({ post_id: rsPost.insertedId, section_id: rsSection.insertedIds[0] })
 
     const js = await Category.find(rsCategory.insertedIds[1])
     const posts = await js.posts().fetch()

@@ -15,7 +15,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const { ioc } = require('@adonisjs/fold')
 const { Config } = require('@adonisjs/sink')
-const ObjectID = require('mongodb').ObjectID
+const ObjectId = require('mongodb').ObjectId
 const helpers = require('./helpers')
 const Model = require('../../src/LucidMongo/Model')
 const DatabaseManager = require('../../src/Database/Manager')
@@ -113,7 +113,7 @@ test.group('Relations | Embeds many', (group) => {
     User._bootIfNotBooted()
     Email._bootIfNotBooted()
 
-    await ioc.use('Database').collection('users').insert({ username: 'virk', emails: [{ _id: ObjectID(), address: 'example@gmail.com' }, { _id: ObjectID(), address: 'example2@gmail.com' }] })
+    await ioc.use('Database').collection('users').insert({ username: 'virk', emails: [{ _id: new ObjectId(), address: 'example@gmail.com' }, { _id: new ObjectId(), address: 'example2@gmail.com' }] })
     const user = await User.first()
     assert.instanceOf(user, User)
     const email = user.emails().find(user.$attributes.emails[1]._id)

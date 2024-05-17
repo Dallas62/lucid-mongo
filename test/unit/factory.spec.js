@@ -329,7 +329,7 @@ test.group('Factory', (group) => {
 
     const returned = await Factory.get('User').collection('users').create()
     const user = await ioc.use('Database').collection('users').findOne()
-    assert.deepEqual(returned.result.n, 1)
+    assert.exists(returned.insertedId)
     assert.equal(user.username, 'virk')
   })
 

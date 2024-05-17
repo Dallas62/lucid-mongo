@@ -73,15 +73,15 @@ test.group('Database', (group) => {
     Models.add('User', User)
 
     const userResult = await db.collection('users').insert({ username: 'virk' })
-    await db.collection('profiles').insert({ profile_name: 'virk', user_id: userResult.insertedIds[0] })
+    await db.collection('profiles').insert({ profile_name: 'virk', user_id: userResult.insertedId })
 
-    const user = await Models.get('User').find(userResult.insertedIds[0])
+    const user = await Models.get('User').find(userResult.insertedId)
     assert.instanceOf(user, User)
-    assert.equal(String(user._id), String(userResult.insertedIds[0]))
+    assert.equal(String(user._id), String(userResult.insertedId))
 
     const profile = await user.profile().fetch()
     assert.instanceOf(profile, Profile)
-    assert.equal(String(profile.user_id), String(userResult.insertedIds[0]))
+    assert.equal(String(profile.user_id), String(userResult.insertedId))
   })
 
   test('define hooks', async (assert) => {
