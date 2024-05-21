@@ -409,7 +409,7 @@ class QueryBuilder {
    * @return {Promise}
    */
   async update (values) {
-    const valuesCopy = _.clone(values)
+    const valuesCopy = _.clone(values.$set || values)
     const fakeModel = new this.Model()
     fakeModel._setUpdatedAt(valuesCopy)
     fakeModel._formatFields(valuesCopy)

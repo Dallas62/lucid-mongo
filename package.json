@@ -2,7 +2,7 @@
   "name": "lucid-mongo",
   "description": "A Mongodb ODM",
   "main": "index.js",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "scripts": {
     "lint": "standard",
     "fix": "standard --fix",

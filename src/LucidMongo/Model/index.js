@@ -709,13 +709,23 @@ class Model extends BaseModel {
     let affected = 0
 
     if (this.isDirty || _.size(this.$unsetAttributes)) {
-      const dirty = this.dirty
+      const changedValues = this.dirty
+      const dirty = {}
+
+      /**
+       * Set attributes
+       */
+      if (_.size(changedValues)) {
+        dirty.$set = changedValues
+      }
+
       /**
        * Unset attributes
        */
       if (_.size(this.$unsetAttributes)) {
         dirty.$unset = this.$unsetAttributes
       }
+
       /**
        * Set proper timestamps
        */
