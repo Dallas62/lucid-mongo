@@ -123,20 +123,24 @@ class Database {
     return new Proxy(this, proxyHandler)
   }
 
-  async connect (collectionName) {
+  async connect () {
     if (!this.db) {
-      this.connection = await MongoClient.connect(this.connectionString, this.connectionOptions)
+      if (!this.connection) {
+        this.connection = MongoClient.connect(this.connectionString, this.connectionOptions)
+      }
+
+      this.connection = await this.connection
+
       this.db = this.connection.db()
     }
-    return Promise.resolve(this.db)
+    return this.db
   }
 
   async getCollection (collectionName) {
     if (!this.db) {
-      this.connection = await MongoClient.connect(this.connectionString, this.connectionOptions)
-      this.db = this.connection.db()
+      this.db = await this.connect()
     }
-    return Promise.resolve(this.db.collection(collectionName))
+    return this.db.collection(collectionName)
   }
 
   collection (collectionName) {
